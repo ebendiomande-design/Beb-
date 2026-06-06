@@ -3,8 +3,8 @@
 //  Personnalisez les 3 constantes ci-dessous puis déployez.
 // ============================================================
 
-const SHEET_ID      = 'VOTRE_SHEET_ID_ICI';   // ID du Google Sheets (dans l'URL)
-const EMAIL_HSE     = 'hse@votreentreprise.com'; // Destinataire des alertes
+const SHEET_ID      = '1PtxTsZqCeMeT_iAhtjha6_EBjYUc3hqZr-ydfME6ZGs';
+const EMAIL_HSE     = 'eben.diomande@gmail.com';
 const ENVOYER_EMAIL = true;                      // false = désactive les emails
 
 // ------------------------------------------------------------
