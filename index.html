@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#16191f">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="HSE">
+<title>Déclarations HSE</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@400;600;700;900&family=Saira:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:       #16191f;
+  --card:     #ffffff;
+  --amber:    #f5a623;
+  --safety:   #ff5722;
+  --green:    #1f9d55;
+  --red:      #d64545;
+  --dark:     #0e1014;
+  --muted:    #6b7280;
+  --border:   #e5e7eb;
+  --radius:   14px;
+  --font-h:   'Saira Condensed', sans-serif;
+  --font-b:   'Saira', sans-serif;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bot: env(safe-area-inset-bottom, 0px);
+}
+html, body {
+  height: 100%;
+  min-height: 100dvh;
+  font-family: var(--font-b);
+  background: var(--bg);
+  color: #1f2937;
+  overflow-x: hidden;
+}
+body {
+  background-image:
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 18px,
+      rgba(245,166,35,.04) 18px,
+      rgba(245,166,35,.04) 20px
+    ),
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(245,166,35,.08), transparent);
+  background-attachment: fixed;
+}
+
+/* ===== LAYOUT ===== */
+#app {
+  max-width: 520px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: calc(16px + var(--safe-bot));
+}
+
+/* ===== HEADER ===== */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--dark);
+  border-bottom: 3px solid var(--amber);
+  padding: calc(var(--safe-top) + 12px) 16px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.5);
+}
+.logo-stripes {
+  width: 44px; height: 44px; border-radius: 8px;
+  background: repeating-linear-gradient(-45deg, #000 0 8px, var(--amber) 8px 16px);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+  box-shadow: 0 0 0 2px var(--amber);
+}
+.header-text h1 {
+  font-family: var(--font-h);
+  font-size: 22px; font-weight: 900;
+  color: #fff; letter-spacing: .04em; line-height: 1;
+}
+.header-text p {
+  font-size: 10px; font-weight: 600;
+  color: var(--amber); letter-spacing: .12em; margin-top: 2px;
+}
+
+/* ===== SCREENS ===== */
+.screen { display: none; flex: 1; flex-direction: column; animation: fadeIn .2s ease; }
+.screen.active { display: flex; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+
+/* ===== HOME ===== */
+.section-label {
+  font-family: var(--font-h);
+  font-size: 13px; font-weight: 700;
+  color: var(--amber); letter-spacing: .1em;
+  padding: 18px 16px 8px;
+  text-transform: uppercase;
+}
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 0 16px;
+}
+.tile {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 16px 12px 14px;
+  border-left: 5px solid var(--amber);
+  box-shadow: 0 2px 8px rgba(0,0,0,.12);
+  cursor: pointer;
+  user-select: none;
+  transition: transform .1s, box-shadow .1s;
+  -webkit-tap-highlight-color: transparent;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.tile.accident { border-left-color: var(--safety); }
+.tile:active { transform: scale(.96); box-shadow: 0 1px 4px rgba(0,0,0,.18); }
+.tile-icon { font-size: 32px; line-height: 1; }
+.tile-name {
+  font-family: var(--font-h);
+  font-size: 14px; font-weight: 700;
+  line-height: 1.2; color: #111;
+  text-transform: uppercase;
+}
+.tile-tag {
+  font-size: 10px; font-weight: 600;
+  color: var(--muted); letter-spacing: .05em;
+  text-transform: uppercase;
+  background: #f3f4f6; border-radius: 4px;
+  padding: 2px 5px; align-self: flex-start;
+}
+.tile.accident .tile-tag { background: #fff3ef; color: var(--safety); }
+
+.utils-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 0 16px;
+}
+.util-btn {
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: var(--radius);
+  padding: 14px 10px;
+  color: #e5e7eb; cursor: pointer;
+  font-family: var(--font-b); font-size: 12px; font-weight: 500;
+  text-align: center; line-height: 1.4;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  -webkit-tap-highlight-color: transparent;
+  transition: background .15s;
+}
+.util-btn:active { background: rgba(255,255,255,.13); }
+.util-btn .ub-icon { font-size: 22px; }
+
+/* ===== FORM SCREEN ===== */
+.form-header {
+  background: var(--dark);
+  padding: 14px 16px;
+  display: flex; align-items: center; gap: 12px;
+  border-bottom: 2px solid rgba(245,166,35,.3);
+}
+.back-btn {
+  background: rgba(255,255,255,.1);
+  border: none; border-radius: 8px;
+  color: #fff; font-size: 18px;
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.form-header h2 {
+  font-family: var(--font-h);
+  color: #fff; font-size: 18px; font-weight: 700;
+  flex: 1; text-transform: uppercase;
+}
+.form-header .fh-icon { font-size: 24px; }
+
+.form-body {
+  flex: 1; overflow-y: auto; padding: 16px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+
+.field { display: flex; flex-direction: column; gap: 5px; }
+label {
+  font-size: 13px; font-weight: 600; color: #374151;
+}
+label .req { color: var(--red); margin-left: 2px; }
+input[type="text"], input[type="email"], input[type="date"],
+input[type="datetime-local"], select, textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-family: var(--font-b); font-size: 15px;
+  background: #fff; color: #111;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+  -webkit-appearance: none;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--amber);
+  box-shadow: 0 0 0 3px rgba(245,166,35,.18);
+}
+.field.error input, .field.error select, .field.error textarea {
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px rgba(214,69,69,.15);
+}
+.field-err {
+  font-size: 11px; color: var(--red); font-weight: 500; display: none;
+}
+.field.error .field-err { display: block; }
+textarea { min-height: 90px; resize: vertical; }
+select { cursor: pointer; }
+
+/* Photo */
+.photo-wrap {
+  border: 2px dashed var(--border);
+  border-radius: 10px; padding: 14px;
+  text-align: center; cursor: pointer;
+  transition: border-color .15s, background .15s;
+  position: relative;
+}
+.photo-wrap:hover { border-color: var(--amber); background: rgba(245,166,35,.04); }
+.photo-wrap input[type="file"] {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+  border: none; padding: 0;
+}
+.photo-label { font-size: 13px; color: var(--muted); pointer-events: none; }
+.photo-label .ph-icon { font-size: 28px; display: block; margin-bottom: 4px; }
+#photo-preview {
+  width: 100%; max-height: 180px; object-fit: cover;
+  border-radius: 8px; margin-top: 10px; display: none;
+}
+
+/* Section separator */
+.form-section {
+  background: var(--bg);
+  margin: 0 -16px; padding: 10px 16px 6px;
+  font-family: var(--font-h);
+  font-size: 11px; font-weight: 700;
+  color: var(--amber); letter-spacing: .1em; text-transform: uppercase;
+}
+
+/* Submit */
+.submit-bar {
+  padding: 12px 16px calc(12px + var(--safe-bot));
+  background: #fff;
+  border-top: 1px solid var(--border);
+  position: sticky; bottom: 0;
+}
+.btn-submit {
+  width: 100%; padding: 16px;
+  background: var(--amber); color: var(--dark);
+  border: none; border-radius: 12px;
+  font-family: var(--font-h); font-size: 18px; font-weight: 700;
+  letter-spacing: .04em; text-transform: uppercase;
+  cursor: pointer; position: relative;
+  transition: opacity .15s, transform .1s;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-submit:active { transform: scale(.98); opacity: .9; }
+.btn-submit.loading { opacity: .7; pointer-events: none; }
+.spinner {
+  display: inline-block; width: 18px; height: 18px;
+  border: 2px solid rgba(0,0,0,.2); border-top-color: var(--dark);
+  border-radius: 50%; animation: spin .7s linear infinite;
+  vertical-align: middle; margin-right: 6px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ===== CONFIRM SCREEN ===== */
+#screen-confirm {
+  align-items: center; justify-content: center;
+  padding: 32px 24px; gap: 20px; text-align: center;
+}
+.confirm-circle {
+  width: 90px; height: 90px; border-radius: 50%;
+  background: var(--green);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 44px;
+  animation: pop .4s cubic-bezier(.34,1.56,.64,1) both;
+  box-shadow: 0 0 0 0 rgba(31,157,85,.4);
+}
+@keyframes pop {
+  0%  { transform: scale(0); opacity:0; }
+  70% { transform: scale(1.12); }
+  100%{ transform: scale(1); opacity:1; }
+}
+.confirm-title {
+  font-family: var(--font-h); font-size: 26px; font-weight: 900;
+  color: #fff; text-transform: uppercase;
+}
+.confirm-sub { color: #9ca3af; font-size: 14px; line-height: 1.5; }
+.confirm-ref {
+  background: rgba(245,166,35,.12);
+  border: 1px solid rgba(245,166,35,.3);
+  border-radius: 10px; padding: 12px 20px;
+  font-family: var(--font-h); font-size: 22px;
+  font-weight: 700; color: var(--amber); letter-spacing: .05em;
+}
+.confirm-actions { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+.btn-secondary {
+  padding: 15px; border-radius: 12px;
+  font-family: var(--font-h); font-size: 16px; font-weight: 700;
+  letter-spacing: .04em; text-transform: uppercase;
+  cursor: pointer; border: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity .15s;
+}
+.btn-secondary:active { opacity: .8; }
+.btn-corrective {
+  background: rgba(245,166,35,.15);
+  border: 1.5px solid var(--amber) !important;
+  border: none; color: var(--amber);
+}
+.btn-home {
+  background: rgba(255,255,255,.08);
+  color: #d1d5db;
+}
+
+/* ===== ACTION FORM ===== */
+#screen-action .form-header { border-bottom-color: rgba(31,157,85,.4); }
+
+/* ===== MODALS (urgences, EPI, etc.) ===== */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,.7); backdrop-filter: blur(4px);
+  display: none; align-items: flex-end; justify-content: center;
+  animation: fadeIn .2s ease;
+}
+.modal-overlay.open { display: flex; }
+.modal-sheet {
+  background: #1e2229; width: 100%; max-width: 520px;
+  border-radius: 20px 20px 0 0;
+  padding: calc(16px + var(--safe-top)) 20px calc(24px + var(--safe-bot));
+  max-height: 80dvh; overflow-y: auto;
+}
+.modal-sheet h3 {
+  font-family: var(--font-h); font-size: 20px; font-weight: 800;
+  color: #fff; margin-bottom: 16px; text-transform: uppercase;
+  display: flex; align-items: center; gap: 8px;
+}
+.modal-sheet .close-modal {
+  margin-left: auto; background: rgba(255,255,255,.1);
+  border: none; border-radius: 8px; color: #fff;
+  width: 32px; height: 32px; cursor: pointer; font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+}
+.emergency-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.emergency-list li {
+  background: rgba(255,255,255,.07); border-radius: 10px; padding: 12px 14px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.emergency-list li strong { color: #fff; font-size: 14px; }
+.emergency-list li a {
+  color: var(--amber); font-size: 18px; font-weight: 700;
+  text-decoration: none; font-family: var(--font-h); letter-spacing: .05em;
+}
+.policy-text { color: #d1d5db; font-size: 13px; line-height: 1.7; }
+.policy-text h4 { color: var(--amber); font-family: var(--font-h); margin-top: 14px; }
+.epi-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.epi-list li {
+  background: rgba(255,255,255,.07); border-radius: 10px; padding: 12px;
+  color: #e5e7eb; font-size: 13px; cursor: pointer;
+  transition: background .12s;
+}
+.epi-list li:active { background: rgba(245,166,35,.15); }
+
+/* ===== MES DECLARATIONS ===== */
+.decl-list { display: flex; flex-direction: column; gap: 10px; }
+.decl-card {
+  background: rgba(255,255,255,.07); border-radius: 10px; padding: 12px 14px;
+  border-left: 4px solid var(--amber);
+}
+.decl-card.accident-card { border-left-color: var(--safety); }
+.decl-card strong { color: #fff; font-size: 13px; }
+.decl-card span { color: #9ca3af; font-size: 11px; display: block; margin-top: 2px; }
+.empty-state { color: #6b7280; text-align: center; padding: 32px 0; font-size: 13px; }
+
+/* ===== TOAST ===== */
+#toast {
+  position: fixed; bottom: calc(20px + var(--safe-bot));
+  left: 50%; transform: translateX(-50%) translateY(80px);
+  background: #1f2937; color: #fff;
+  border-radius: 10px; padding: 12px 20px;
+  font-size: 13px; max-width: 300px; text-align: center;
+  z-index: 300; transition: transform .3s ease;
+  box-shadow: 0 4px 20px rgba(0,0,0,.5);
+  pointer-events: none;
+}
+#toast.show { transform: translateX(-50%) translateY(0); }
+#toast.error { background: var(--red); }
+#toast.success { background: var(--green); }
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 2px; }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ============================= HEADER ============================= -->
+  <header>
+    <div class="logo-stripes">🦺</div>
+    <div class="header-text">
+      <h1>DÉCLARATIONS HSE</h1>
+      <p>SÉCURITÉ · SANTÉ · ENVIRONNEMENT</p>
+    </div>
+  </header>
+
+  <!-- ============================= HOME ============================= -->
+  <div id="screen-home" class="screen active">
+    <div class="section-label">Nouvelle déclaration</div>
+    <div class="grid" id="tiles-grid"></div>
+    <div class="section-label">Informations &amp; demandes</div>
+    <div class="utils-grid">
+      <button class="util-btn" onclick="openModal('modal-urgences')">
+        <span class="ub-icon">📞</span>Numéros d'urgence
+      </button>
+      <button class="util-btn" onclick="openModal('modal-epi')">
+        <span class="ub-icon">🦺</span>Demande d'EPI
+      </button>
+      <button class="util-btn" onclick="openModal('modal-politique')">
+        <span class="ub-icon">📋</span>Politique HSE
+      </button>
+      <button class="util-btn" onclick="openModal('modal-declarations')">
+        <span class="ub-icon">🕓</span>Mes déclarations
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================= FORM ============================= -->
+  <div id="screen-form" class="screen">
+    <div class="form-header">
+      <button class="back-btn" onclick="goHome()">←</button>
+      <span class="fh-icon" id="form-icon"></span>
+      <h2 id="form-title"></h2>
+    </div>
+    <div class="form-body" id="form-body"></div>
+    <div class="submit-bar">
+      <button class="btn-submit" id="btn-submit" onclick="submitForm()">
+        Envoyer la déclaration
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================= CONFIRM ============================= -->
+  <div id="screen-confirm" class="screen">
+    <div class="confirm-circle">✓</div>
+    <div class="confirm-title">Déclaration enregistrée</div>
+    <div class="confirm-sub">Votre déclaration a bien été transmise.<br>Conservez votre référence :</div>
+    <div class="confirm-ref" id="confirm-ref">—</div>
+    <div class="confirm-actions">
+      <button class="btn-secondary btn-corrective" onclick="openActionForm()">
+        ➕ Ajouter une action corrective
+      </button>
+      <button class="btn-secondary btn-home" onclick="goHome()">
+        Terminer
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================= ACTION FORM ============================= -->
+  <div id="screen-action" class="screen">
+    <div class="form-header" style="border-bottom-color:rgba(31,157,85,.4)">
+      <button class="back-btn" onclick="showScreen('screen-confirm')">←</button>
+      <span class="fh-icon">➕</span>
+      <h2>Plan d'action</h2>
+    </div>
+    <div class="form-body" id="action-form-body"></div>
+    <div class="submit-bar">
+      <button class="btn-submit" id="btn-action-submit" onclick="submitAction()"
+        style="background:var(--green)">
+        Enregistrer l'action
+      </button>
+    </div>
+  </div>
+
+</div><!-- #app -->
+
+<!-- ============================= MODALS ============================= -->
+<div class="modal-overlay" id="modal-urgences" onclick="if(event.target===this)closeModal('modal-urgences')">
+  <div class="modal-sheet">
+    <h3>📞 Urgences <button class="close-modal" onclick="closeModal('modal-urgences')">✕</button></h3>
+    <ul class="emergency-list">
+      <li><strong>SAMU</strong><a href="tel:15">15</a></li>
+      <li><strong>Police / Gendarmerie</strong><a href="tel:17">17</a></li>
+      <li><strong>Pompiers</strong><a href="tel:18">18</a></li>
+      <li><strong>Urgences européen</strong><a href="tel:112">112</a></li>
+      <li><strong>Responsable HSE site</strong><a href="tel:+330000000000">+33 00 00 00 00</a></li>
+    </ul>
+    <p style="color:var(--muted);font-size:11px;margin-top:14px">Personnalisez ces numéros dans l'objet <code>URGENCES</code> de index.html</p>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-epi" onclick="if(event.target===this)closeModal('modal-epi')">
+  <div class="modal-sheet">
+    <h3>🦺 Demande d'EPI <button class="close-modal" onclick="closeModal('modal-epi')">✕</button></h3>
+    <p style="color:#9ca3af;font-size:13px;margin-bottom:12px">Sélectionnez le ou les équipements nécessaires :</p>
+    <ul class="epi-list" id="epi-list"></ul>
+    <div style="margin-top:14px">
+      <textarea id="epi-commentaire" placeholder="Commentaire / justification (optionnel)" style="background:#1e2229;color:#fff;border-color:rgba(255,255,255,.15)"></textarea>
+    </div>
+    <div style="margin-top:12px">
+      <button class="btn-submit" onclick="sendEpiRequest()">Envoyer la demande</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-politique" onclick="if(event.target===this)closeModal('modal-politique')">
+  <div class="modal-sheet">
+    <h3>📋 Politique HSE <button class="close-modal" onclick="closeModal('modal-politique')">✕</button></h3>
+    <div class="policy-text">
+      <h4>Engagement de la Direction</h4>
+      <p>Notre entreprise s'engage à garantir la santé et la sécurité de tous les collaborateurs, sous-traitants et visiteurs présents sur nos sites.</p>
+      <h4>Règles fondamentales</h4>
+      <p>• Port des EPI obligatoire en zone de production.<br>
+         • Toute situation dangereuse doit être signalée immédiatement.<br>
+         • Aucune prise de risque délibérée n'est tolérée.<br>
+         • Le droit de retrait peut être exercé à tout moment.</p>
+      <h4>Objectifs</h4>
+      <p>Zéro accident, zéro incident environnemental. Amélioration continue mesurée par les indicateurs TF et TG.</p>
+      <p style="margin-top:12px;font-size:11px;color:var(--muted)">Remplacez ce texte dans l'objet <code>POLITIQUE</code> de index.html</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-declarations" onclick="if(event.target===this)closeModal('modal-declarations')">
+  <div class="modal-sheet">
+    <h3>🕓 Mes déclarations <button class="close-modal" onclick="closeModal('modal-declarations')">✕</button></h3>
+    <div id="mes-declarations-list"></div>
+  </div>
+</div>
+
+<!-- ============================= TOAST ============================= -->
+<div id="toast"></div>
+
+<script>
+// ================================================================
+//  CONFIGURATION — à personnaliser
+// ================================================================
+
+/** URL du backend Apps Script (laisser vide = mode démo) */
+const ENDPOINT = '';
+
+/** Numéros d'urgence (synchronisés avec la modale) */
+const URGENCES = [
+  { label: 'SAMU',                   tel: '15' },
+  { label: 'Police / Gendarmerie',   tel: '17' },
+  { label: 'Pompiers',               tel: '18' },
+  { label: 'Urgences européen',      tel: '112' },
+  { label: 'Responsable HSE site',   tel: '+330000000000' },
+];
+
+/** Listes déroulantes */
+const C = {
+  entite:    ['Production','Maintenance','Logistique','Qualité','Administration','Sous-traitant','Autre'],
+  source:    ['Comportement','Condition matérielle','Organisation','Environnement'],
+  zone:      ['Atelier','Entrepôt','Bureaux','Extérieur / Cour','Quai de chargement','Local technique','Autre'],
+  type:      ['Situation dangereuse','Acte dangereux','Non-conformité','Bonne pratique','Point d\'amélioration'],
+  categorie: ['Sécurité','Santé','Environnement'],
+  gravite:   ['Faible','Moyenne','Élevée','Critique'],
+  site:      ['Site principal','Site secondaire','Chantier extérieur'],
+  priorite:  ['Basse','Moyenne','Haute'],
+  epi:       ['Casque de protection','Lunettes de sécurité','Gants de travail','Chaussures de sécurité',
+               'Gilet haute-visibilité','Protège-oreilles','Masque FFP2','Harnais antichute',
+               'Combinaison de protection','Autre (préciser en commentaire)'],
+};
+
+/** Types de déclaration */
+const TYPES = {
+  situation: {
+    icon: '⚠️', label: 'Situation à Risque', tag: 'Observation',
+    table: 'Observations', accent: 'amber',
+    fields: [
+      { key:'EntiteEmettrice', label:'Entité émettrice',      type:'select', opts:'entite',    req:1 },
+      { key:'Source',          label:'Source',                type:'select', opts:'source',    req:1 },
+      { key:'Zone',            label:'Zone',                  type:'select', opts:'zone',      req:1 },
+      { key:'Zone0',           label:'Précision du lieu',     type:'text' },
+      { key:'TypeSituation',   label:'Type de situation',     type:'select', opts:'type',      req:1 },
+      { key:'Categorie',       label:'Catégorie',             type:'select', opts:'categorie', req:1 },
+      { key:'GravitePotentielle', label:'Gravité potentielle',type:'select', opts:'gravite',   req:1 },
+      { key:'Description',     label:'Description',           type:'textarea',req:1 },
+      { key:'PieceJointe',     label:'Photo (optionnel)',      type:'photo' },
+    ]
+  },
+  presquaccident: {
+    icon: '❗', label: 'Presqu\'Accident', tag: 'Observation',
+    table: 'Observations', accent: 'amber',
+    fields: [
+      { key:'Zone',            label:'Zone',                  type:'select', opts:'zone',      req:1 },
+      { key:'TypeSituation',   label:'Type de situation',     type:'select', opts:'type',      req:1 },
+      { key:'Categorie',       label:'Catégorie',             type:'select', opts:'categorie', req:1 },
+      { key:'GravitePotentielle', label:'Gravité potentielle',type:'select', opts:'gravite',   req:1 },
+      { key:'Description',     label:'Que s\'est-il passé ?', type:'textarea',req:1 },
+      { key:'PieceJointe',     label:'Photo (optionnel)',      type:'photo' },
+    ]
+  },
+  degat: {
+    icon: '🧰', label: 'Dégât Matériel', tag: 'Événement / accident',
+    table: 'Accidents', accent: 'safety',
+    fields: [
+      { key:'Site',              label:'Site',                    type:'select', opts:'site', req:1 },
+      { key:'Zone',              label:'Zone',                    type:'select', opts:'zone', req:1 },
+      { key:'NatureBlessure',    label:'Équipement / bien concerné', type:'text',req:1 },
+      { key:'DescriptionAccident', label:'Description des dégâts', type:'textarea',req:1 },
+      { key:'PieceJointe',       label:'Photo (optionnel)',        type:'photo' },
+    ]
+  },
+  premiersoin: {
+    icon: '➕', label: 'Premier Soin', tag: 'Événement / accident',
+    table: 'Accidents', accent: 'safety',
+    fields: [
+      { key:'PersonneBlessee',    label:'Personne concernée',         type:'text', req:1 },
+      { key:'Fonction',           label:'Fonction',                   type:'text' },
+      { key:'Site',               label:'Site',                       type:'select',opts:'site',req:1 },
+      { key:'Zone',               label:'Zone',                       type:'select',opts:'zone',req:1 },
+      { key:'NatureBlessure',     label:'Nature de la blessure',      type:'text', req:1 },
+      { key:'DescriptionAccident',label:'Circonstances et soins apportés', type:'textarea',req:1 },
+    ]
+  },
+  trajet: {
+    icon: '🚗', label: 'Accident de Trajet', tag: 'Événement / accident',
+    table: 'Accidents', accent: 'safety',
+    fields: [
+      { key:'PersonneBlessee',    label:'Personne concernée',   type:'text',req:1 },
+      { key:'Fonction',           label:'Fonction',             type:'text' },
+      { key:'Zone',               label:'Lieu du trajet',       type:'text',req:1 },
+      { key:'NatureBlessure',     label:'Nature de la blessure',type:'text' },
+      { key:'DescriptionAccident',label:'Description',          type:'textarea',req:1 },
+    ]
+  },
+  blessure: {
+    icon: '🩹', label: 'Accident avec Blessure', tag: 'Événement / accident',
+    table: 'Accidents', accent: 'safety',
+    fields: [
+      { key:'PersonneBlessee',    label:'Personne blessée',     type:'text', req:1 },
+      { key:'Fonction',           label:'Fonction',             type:'text', req:1 },
+      { key:'Site',               label:'Site',                 type:'select',opts:'site',req:1 },
+      { key:'Zone',               label:'Zone',                 type:'select',opts:'zone',req:1 },
+      { key:'NatureBlessure',     label:'Nature de la blessure',type:'text', req:1 },
+      { key:'DescriptionAccident',label:'Description',          type:'textarea',req:1 },
+      { key:'PieceJointe',        label:'Photo (optionnel)',     type:'photo' },
+    ]
+  },
+};
+
+/** Champs communs en tête de tout formulaire */
+const COMMON_FIELDS = [
+  { key:'DeclarantNom', label:'Votre nom',              type:'text',            req:1 },
+  { key:'Email',        label:'Email (pour le suivi)',  type:'email' },
+  { key:'DateHeure',    label:'Date et heure',          type:'datetime-local',  req:1 },
+];
+
+// ================================================================
+//  ÉTAT DE L'APPLICATION
+// ================================================================
+let currentType    = null;  // clé dans TYPES
+let currentRef     = null;  // référence de la dernière déclaration
+let photoBase64    = null;  // base64 de la photo
+let selectedEpis   = [];    // EPI sélectionnés dans la modale
+
+// ================================================================
+//  INITIALISATION
+// ================================================================
+document.addEventListener('DOMContentLoaded', () => {
+  buildTiles();
+  buildEpiList();
+  fillUrgences();
+  loadLocalDeclarations();
+  registerSW();
+});
+
+function buildTiles() {
+  const grid = document.getElementById('tiles-grid');
+  Object.entries(TYPES).forEach(([key, t]) => {
+    const div = document.createElement('div');
+    div.className = 'tile' + (t.accent === 'safety' ? ' accident' : '');
+    div.innerHTML = `
+      <div class="tile-icon">${t.icon}</div>
+      <div class="tile-name">${t.label}</div>
+      <div class="tile-tag">${t.tag}</div>
+    `;
+    div.addEventListener('click', () => openForm(key));
+    grid.appendChild(div);
+  });
+}
+
+function buildEpiList() {
+  const ul = document.getElementById('epi-list');
+  C.epi.forEach(item => {
+    const li = document.createElement('li');
+    li.textContent = item;
+    li.addEventListener('click', () => {
+      const idx = selectedEpis.indexOf(item);
+      if (idx === -1) {
+        selectedEpis.push(item);
+        li.style.background = 'rgba(245,166,35,.2)';
+        li.style.color = 'var(--amber)';
+      } else {
+        selectedEpis.splice(idx, 1);
+        li.style.background = '';
+        li.style.color = '';
+      }
+    });
+    ul.appendChild(li);
+  });
+}
+
+function fillUrgences() {
+  const ul = document.querySelector('.emergency-list');
+  ul.innerHTML = URGENCES.map(u =>
+    `<li><strong>${u.label}</strong><a href="tel:${u.tel}">${u.tel}</a></li>`
+  ).join('');
+}
+
+// ================================================================
+//  NAVIGATION
+// ================================================================
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function goHome() {
+  photoBase64 = null;
+  currentType = null;
+  showScreen('screen-home');
+}
+
+// ================================================================
+//  FORMULAIRE
+// ================================================================
+function openForm(typeKey) {
+  currentType = typeKey;
+  photoBase64 = null;
+  const t = TYPES[typeKey];
+  document.getElementById('form-icon').textContent = t.icon;
+  document.getElementById('form-title').textContent = t.label;
+
+  const body = document.getElementById('form-body');
+  body.innerHTML = '';
+
+  // Section informations déclarant
+  const sep1 = document.createElement('div');
+  sep1.className = 'form-section';
+  sep1.textContent = '👤 Informations déclarant';
+  body.appendChild(sep1);
+
+  const now = new Date();
+  const localIso = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
+    .toISOString().slice(0,16);
+
+  COMMON_FIELDS.forEach(f => {
+    const field = buildField(f);
+    if (f.key === 'DateHeure') {
+      field.querySelector('input').value = localIso;
+    }
+    body.appendChild(field);
+  });
+
+  // Section événement
+  const sep2 = document.createElement('div');
+  sep2.className = 'form-section';
+  sep2.textContent = '📋 Détails de la déclaration';
+  body.appendChild(sep2);
+
+  t.fields.forEach(f => body.appendChild(buildField(f)));
+
+  showScreen('screen-form');
+  body.scrollTop = 0;
+}
+
+function buildField(f) {
+  const wrap = document.createElement('div');
+  wrap.className = 'field';
+  wrap.dataset.key = f.key;
+
+  if (f.type === 'photo') {
+    wrap.innerHTML = `
+      <label>${f.label}</label>
+      <div class="photo-wrap">
+        <input type="file" accept="image/*" capture="environment" id="photo-input">
+        <div class="photo-label">
+          <span class="ph-icon">📷</span>
+          Appuyez pour prendre une photo
+        </div>
+      </div>
+      <img id="photo-preview" alt="Aperçu photo">
+    `;
+    wrap.querySelector('#photo-input').addEventListener('change', handlePhoto);
+    return wrap;
+  }
+
+  const req = f.req ? '<span class="req">*</span>' : '';
+  let input;
+
+  if (f.type === 'select') {
+    input = document.createElement('select');
+    input.innerHTML = `<option value="">— Sélectionner —</option>` +
+      (C[f.opts] || []).map(o => `<option value="${esc(o)}">${esc(o)}</option>`).join('');
+  } else if (f.type === 'textarea') {
+    input = document.createElement('textarea');
+    input.placeholder = f.placeholder || '';
+    input.rows = 4;
+  } else {
+    input = document.createElement('input');
+    input.type = f.type || 'text';
+    input.placeholder = f.placeholder || '';
+  }
+
+  input.id    = 'field-' + f.key;
+  input.name  = f.key;
+  if (f.req) input.required = true;
+
+  const errSpan = document.createElement('span');
+  errSpan.className = 'field-err';
+  errSpan.textContent = 'Ce champ est obligatoire.';
+
+  wrap.innerHTML = `<label for="field-${f.key}">${f.label}${req}</label>`;
+  wrap.appendChild(input);
+  wrap.appendChild(errSpan);
+  return wrap;
+}
+
+function handlePhoto(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    photoBase64 = ev.target.result;
+    const preview = document.getElementById('photo-preview');
+    if (preview) { preview.src = photoBase64; preview.style.display = 'block'; }
+  };
+  reader.readAsDataURL(file);
+}
+
+// ================================================================
+//  VALIDATION
+// ================================================================
+function validateForm(bodyId) {
+  const body = document.getElementById(bodyId);
+  let valid = true;
+  let firstError = null;
+
+  body.querySelectorAll('.field[data-key]').forEach(wrap => {
+    const key = wrap.dataset.key;
+    const el  = wrap.querySelector('input,select,textarea');
+    if (!el || !el.required) return;
+    wrap.classList.remove('error');
+    if (!el.value.trim()) {
+      wrap.classList.add('error');
+      valid = false;
+      if (!firstError) firstError = wrap;
+    }
+  });
+
+  if (!valid && firstError) {
+    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  return valid;
+}
+
+function collectData(bodyId) {
+  const body = document.getElementById(bodyId);
+  const data = {};
+  body.querySelectorAll('.field[data-key]').forEach(wrap => {
+    const key = wrap.dataset.key;
+    if (key === 'PieceJointe') { data[key] = photoBase64 || ''; return; }
+    const el = wrap.querySelector('input,select,textarea');
+    if (el) data[key] = el.value;
+  });
+  return data;
+}
+
+// ================================================================
+//  ENVOI DÉCLARATION
+// ================================================================
+async function submitForm() {
+  if (!validateForm('form-body')) return;
+
+  const t    = TYPES[currentType];
+  const data = collectData('form-body');
+
+  // Champs automatiques
+  data.DeclarationType = t.label;
+  data.Statut          = 'Nouveau';
+  data.Title           = t.label + ' – ' + (data.Zone || data.Site || data.DeclarantNom || '');
+
+  const btn = document.getElementById('btn-submit');
+  btn.classList.add('loading');
+  btn.innerHTML = '<span class="spinner"></span> Envoi…';
+
+  try {
+    const ref = await sendToBackend({ table: t.table, data });
+    currentRef = ref;
+    saveLocalDeclaration({ ref, type: t.label, table: t.table, date: data.DateHeure });
+    showConfirm(ref);
+  } catch (err) {
+    showToast('Erreur : ' + err.message, 'error');
+  } finally {
+    btn.classList.remove('loading');
+    btn.textContent = 'Envoyer la déclaration';
+  }
+}
+
+// ================================================================
+//  PLAN D'ACTION
+// ================================================================
+function openActionForm() {
+  const body = document.getElementById('action-form-body');
+  body.innerHTML = '';
+
+  const actionFields = [
+    { key:'DescriptionAction',  label:'Description de l\'action',  type:'textarea',  req:1 },
+    { key:'ResponsableAction',  label:'Responsable de l\'action',  type:'text',      req:1 },
+    { key:'Echeance',           label:'Échéance',                  type:'date' },
+    { key:'Priorite',           label:'Priorité',                  type:'select', opts:'priorite' },
+    { key:'Commentaire',        label:'Commentaire',               type:'textarea' },
+  ];
+
+  actionFields.forEach(f => {
+    const field = buildField(f);
+    if (f.key === 'Priorite') {
+      const sel = field.querySelector('select');
+      if (sel) sel.value = 'Moyenne';
+    }
+    body.appendChild(field);
+  });
+
+  showScreen('screen-action');
+}
+
+async function submitAction() {
+  if (!validateForm('action-form-body')) return;
+
+  const data = collectData('action-form-body');
+  data.EvenementID   = currentRef;
+  data.EvenementType = currentType ? TYPES[currentType].label : '';
+  data.StatutAction  = 'En cours';
+  data.Title         = 'Action corrective – ' + currentRef;
+
+  const btn = document.getElementById('btn-action-submit');
+  btn.classList.add('loading');
+  btn.innerHTML = '<span class="spinner"></span> Envoi…';
+
+  try {
+    const ref = await sendToBackend({ table: 'Actions', data });
+    showToast('Action enregistrée : ' + ref, 'success');
+    setTimeout(goHome, 1800);
+  } catch (err) {
+    showToast('Erreur : ' + err.message, 'error');
+  } finally {
+    btn.classList.remove('loading');
+    btn.textContent = 'Enregistrer l\'action';
+  }
+}
+
+// ================================================================
+//  COMMUNICATION BACKEND
+// ================================================================
+async function sendToBackend(payload) {
+  if (!ENDPOINT) {
+    // MODE DÉMO
+    await delay(900 + Math.random() * 600);
+    const fakeRef = 'LOCAL-' + Math.random().toString(36).slice(2,8).toUpperCase();
+    return fakeRef;
+  }
+
+  const resp = await fetch(ENDPOINT, {
+    method:  'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body:    JSON.stringify(payload),
+  });
+
+  if (!resp.ok) throw new Error('Serveur inaccessible (' + resp.status + ')');
+
+  const json = await resp.json();
+  if (!json.ok) throw new Error(json.error || 'Erreur inconnue');
+  return json.ref;
+}
+
+function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// ================================================================
+//  CONFIRMATION
+// ================================================================
+function showConfirm(ref) {
+  document.getElementById('confirm-ref').textContent = ref;
+  showScreen('screen-confirm');
+  // Scroll haut
+  document.getElementById('screen-confirm').scrollTop = 0;
+}
+
+// ================================================================
+//  STOCKAGE LOCAL (Mes déclarations)
+// ================================================================
+function saveLocalDeclaration(decl) {
+  const list = JSON.parse(localStorage.getItem('hse_declarations') || '[]');
+  list.unshift(decl);
+  if (list.length > 30) list.pop();
+  localStorage.setItem('hse_declarations', JSON.stringify(list));
+}
+
+function loadLocalDeclarations() {
+  // Pré-chargement silencieux
+}
+
+function renderDeclarations() {
+  const list = JSON.parse(localStorage.getItem('hse_declarations') || '[]');
+  const el   = document.getElementById('mes-declarations-list');
+  if (!list.length) {
+    el.innerHTML = '<p class="empty-state">Aucune déclaration enregistrée sur cet appareil.</p>';
+    return;
+  }
+  el.innerHTML = '<div class="decl-list">' +
+    list.map(d => `
+      <div class="decl-card ${d.table === 'Accidents' ? 'accident-card' : ''}">
+        <strong>${d.ref}</strong>
+        <span>${d.type}</span>
+        <span>${d.date || ''}</span>
+      </div>
+    `).join('') +
+    '</div>';
+}
+
+// ================================================================
+//  MODALES
+// ================================================================
+function openModal(id) {
+  if (id === 'modal-declarations') renderDeclarations();
+  document.getElementById(id).classList.add('open');
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+// ================================================================
+//  DEMANDE EPI
+// ================================================================
+async function sendEpiRequest() {
+  if (!selectedEpis.length) { showToast('Sélectionnez au moins un EPI', 'error'); return; }
+  const comment = document.getElementById('epi-commentaire').value;
+  const data = {
+    DeclarantNom:       'Demande EPI',
+    DeclarationType:    'Demande EPI',
+    Description:        selectedEpis.join(', ') + (comment ? ' — ' + comment : ''),
+    Statut:             'Nouveau',
+    Categorie:          'Sécurité',
+    Title:              'Demande EPI – ' + selectedEpis.join(', ').slice(0,40),
+    DateHeure:          new Date().toISOString(),
+  };
+  try {
+    await sendToBackend({ table: 'Observations', data });
+    showToast('Demande envoyée !', 'success');
+    closeModal('modal-epi');
+    selectedEpis = [];
+    document.querySelectorAll('#epi-list li').forEach(li => {
+      li.style.background = ''; li.style.color = '';
+    });
+    document.getElementById('epi-commentaire').value = '';
+  } catch (err) {
+    showToast('Erreur : ' + err.message, 'error');
+  }
+}
+
+// ================================================================
+//  TOAST
+// ================================================================
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className   = 'show' + (type ? ' ' + type : '');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => { t.className = ''; }, 3500);
+}
+
+// ================================================================
+//  SERVICE WORKER
+// ================================================================
+function registerSW() {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js')
+      .catch(err => console.warn('SW registration failed', err));
+  }
+}
+
+// ================================================================
+//  UTILITAIRES
+// ================================================================
+function esc(str) {
+  return String(str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>
